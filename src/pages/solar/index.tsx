@@ -101,14 +101,14 @@ const IMAGES = {
 };
 
 // Animated Counter Component
-function AnimatedCounter({ end, duration = 2000, prefix = "", suffix = "" }) {
+function AnimatedCounter({ end=0, duration = 2000, prefix = "", suffix = "" }) {
   const [count, setCount] = useState(0);
   
   useEffect(() => {
-    let startTime;
-    let animationFrame;
+    let startTime: number;
+    let animationFrame: number;
     
-    const animate = (timestamp) => {
+    const animate = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
       const progress = Math.min((timestamp - startTime) / duration, 1);
       
@@ -203,8 +203,8 @@ function ROICalculator() {
 export default function SunfoldLanding() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled]  = useState(false);
-  const [activeTab, setActiveTab] = useState('residential');
-  const [activeFAQ, setActiveFAQ] = useState(null);
+  const [activeTab, setActiveTab] = useState<'residential' | 'commercial' | 'industrial'>('residential');
+  const [activeFAQ, setActiveFAQ] = useState<number | null>(null);
   const [liveStats, setLiveStats] = useState({
     energyGenerated: 1247893,
     co2Saved: 934156,
@@ -379,7 +379,7 @@ export default function SunfoldLanding() {
           <img
             src={IMAGES.hero}
             alt="Modern home with solar panels installed on roof"
-            className="w-full h-[260px] sm:h-[380px] md:h-[500px] object-cover object-center"
+            className="w-full h-65 sm:h-95 md:h-125 object-cover object-center"
             loading="eager"
           />
           <div className="absolute bottom-5 md:scale-150 scale-125 left-1/2 -translate-x-1/2 bg-white/95 backdrop-blur-md rounded-2xl px-6 py-3 shadow-xl flex items-center gap-5 whitespace-nowrap z-10">
@@ -397,7 +397,7 @@ export default function SunfoldLanding() {
       </section>
 
       {/* ─── LIVE IMPACT DASHBOARD ─── */}
-      <section className="py-16 px-4 sm:px-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative overflow-hidden">
+      <section className="py-16 px-4 sm:px-8 bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-sky-500 rounded-full blur-3xl"/>
           <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500 rounded-full blur-3xl"/>
@@ -603,7 +603,7 @@ export default function SunfoldLanding() {
           </div>
 
           <div className="flex justify-center gap-2 mb-8">
-            {['residential', 'commercial', 'industrial'].map(tab => (
+            {(['residential', 'commercial', 'industrial'] as const).map(tab => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -623,7 +623,7 @@ export default function SunfoldLanding() {
               <img
                 src={IMAGES[activeTab]}
                 alt={`${activeTab} solar installation`}
-                className="w-full h-[400px] object-cover"
+                className="w-full h-25 object-cover"
               />
             </div>
 
@@ -967,7 +967,7 @@ export default function SunfoldLanding() {
                 >
                   <span className="font-semibold text-gray-900 font-body pr-4">{faq.q}</span>
                   <svg
-                    className={`w-5 h-5 text-gray-400 flex-shrink-0 transition-transform ${activeFAQ === i ? 'rotate-180' : ''}`}
+                    className={`w-5 h-5 text-gray-400 shrink-0 transition-transform ${activeFAQ === i ? 'rotate-180' : ''}`}
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -987,13 +987,13 @@ export default function SunfoldLanding() {
       </section>
 
       {/* ─── PANEL PHOTO DIVIDER ─── */}
-      <div className="relative h-[220px] sm:h-[320px] overflow-hidden">
+      <div className="relative h-55 sm:h-80 overflow-hidden">
         <img
           src={IMAGES.panelClose}
           alt="Close-up of solar panels"
           className="w-full h-full object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black/35 pointer-events-none"/>
+        <div className="absolute inset-0 bg-linear-to-b from-black/25 via-transparent to-black/35 pointer-events-none"/>
       </div>
 
       {/* ─── CTA ─── */}
@@ -1004,7 +1004,7 @@ export default function SunfoldLanding() {
           aria-hidden="true"
           className="absolute inset-0 w-full h-full object-cover object-center opacity-[0.18]"
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-950/90 via-gray-950/75 to-gray-900/85 pointer-events-none"/>
+        <div className="absolute inset-0 bg-linear-to-br from-gray-950/90 via-gray-950/75 to-gray-900/85 pointer-events-none"/>
 
         <div className="relative max-w-5xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20">
